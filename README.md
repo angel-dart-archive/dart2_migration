@@ -27,3 +27,5 @@ Checks for:
 * Note that you can specify a list of names to only analyze certain packages.
 
 ## Check for Git changes
+
+## Ensure all projects have `.travis.yml`, if they have `test/`.
