@@ -25,3 +25,5 @@ Checks for:
 
 ## Running Dart Analyzer
 * Note that you can specify a list of names to only analyze certain packages.
+
+## Check for Git changes
