@@ -5,3 +5,5 @@ dependencies:
   io: ^0.3.2
   path: ^1.0.0
   pubspec_parse: ^0.1.2
+executables:
+  halo: halo
