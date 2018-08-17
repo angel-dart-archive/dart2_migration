@@ -2,17 +2,22 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:args/command_runner.dart';
 import 'package:path/path.dart' as p;
 import 'package:pubspec_parse/pubspec_parse.dart';
 
-Stream<HaloProject> get allProjects {
-  var file = new File('projects.txt');
-  return file
-      .openRead()
-      .transform(utf8.decoder)
-      .transform(LineSplitter())
-      .map(Uri.parse)
-      .map((gitUrl) => HaloProject(gitUrl));
+abstract class HaloCommand<T> extends Command<T> {
+  Stream<HaloProject> get allProjects {
+    var file = new File('projects.txt');
+    return file
+        .openRead()
+        .transform(utf8.decoder)
+        .transform(LineSplitter())
+        .map(Uri.parse)
+        .map((gitUrl) => HaloProject(gitUrl))
+        .where(
+            (p) => argResults.rest.isEmpty || argResults.rest.contains(p.name));
+  }
 }
 
 class HaloProject {

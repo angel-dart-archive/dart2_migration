@@ -1,7 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'common.dart';
 
-class UpdateCommand extends Command {
+class UpdateCommand extends HaloCommand {
   @override
   String get name => 'update';
 

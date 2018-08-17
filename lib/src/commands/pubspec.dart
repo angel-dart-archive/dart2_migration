@@ -4,7 +4,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'common.dart';
 
-class PubspecCommand extends Command {
+class PubspecCommand extends HaloCommand {
   @override
   String get name => 'pubspec';
 

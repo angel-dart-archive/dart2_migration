@@ -1,7 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'common.dart';
 
-class ListCommand extends Command {
+class ListCommand extends HaloCommand {
   String get name => 'list';
 
   String get description => 'Lists all projects Halo is configured to manage.';
