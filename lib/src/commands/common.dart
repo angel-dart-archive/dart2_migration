@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:pubspec_parse/pubspec_parse.dart';
 
 Stream<HaloProject> get allProjects {
   var file = new File('projects.txt');
@@ -28,25 +29,36 @@ class HaloProject {
     var code = await p.exitCode;
 
     if (code != 0) {
-      throw new StateError(
-          'Process ${p.pid} terminated with exit code ${p.exitCode}.');
+      throw new StateError('Process ${p.pid} terminated with exit code $code.');
     }
   }
 
+  Future<Pubspec> parsePubspec() async {
+    var file =
+        new File.fromUri(p.toUri(p.join(directory.path, 'pubspec.yaml')));
+    return Pubspec.parse(await file.readAsString(), sourceUrl: file.uri);
+  }
+
+  void enter() {
+    print('Entering project $name...');
+  }
+
   Future clone() async {
+    enter();
     await _expectExitCodeZero(await Process.start(
         'git', ['clone', gitUrl.toString(), directory.absolute.path],
         mode: ProcessStartMode.inheritStdio));
   }
 
   Future update() async {
+    enter();
     await _expectExitCodeZero(await Process.start(
         'git', ['pull', 'origin', 'master'],
         workingDirectory: directory.absolute.path,
         mode: ProcessStartMode.inheritStdio));
 
-    await _expectExitCodeZero(await Process.start('pub', ['upgrade'],
-        workingDirectory: directory.absolute.path,
-        mode: ProcessStartMode.inheritStdio));
+//    await _expectExitCodeZero(await Process.start('pub', ['upgrade'],
+//        workingDirectory: directory.absolute.path,
+//        mode: ProcessStartMode.inheritStdio));
   }
 }
